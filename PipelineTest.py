@@ -8,7 +8,7 @@ def main():
         version="0.0.0",
         auto_version_bump=True,
         # abort_on_failure = True,
-        # repo = 'https://github.com/Zarach/NeuroExplicitProblog.git'
+        repo = 'https://github.com/Zarach/NeSy.git'
     )
 
     pipe.add_function_step(
