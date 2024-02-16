@@ -27,7 +27,7 @@ def main():
         cache_executed_step=True,
     )
     #pipe.set_default_execution_queue("default")
-    pipe.start_locally(run_pipeline_steps_locally=True)
+    pipe.start()
     pipe.start(queue="default")
 
 
