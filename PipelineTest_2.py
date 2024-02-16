@@ -21,6 +21,6 @@ if __name__ == '__main__':
     # for scale-out, comment-out the following line (Make sure a
     # 'services' queue is available and serviced by a ClearML agent
     # running either in services mode or through K8S/Autoscaler)
-    PipelineDecorator.run_locally()
+    PipelineDecorator.run_locally(run_pipeline_steps_locally=True)
 
     pipeline_logic(do_stuff=True)
