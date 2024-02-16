@@ -26,8 +26,8 @@ def main():
         function_return=["incremented_number"],
         cache_executed_step=True,
     )
-    pipe.set_default_execution_queue("dev")
-    pipe.start(queue="dev")
+    pipe.set_default_execution_queue("default")
+    pipe.start(queue="default")
 
 
 def increment(i: int = 0, limit: int = 2) -> int:
