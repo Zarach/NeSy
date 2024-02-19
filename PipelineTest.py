@@ -9,7 +9,7 @@ def main():
         auto_version_bump=True,
         abort_on_failure=True,
         repo='https://github.com/Zarach/NeSy.git',
-        always_create_from_code=True
+        always_create_from_code=False
     )
 
     pipe.add_function_step(
