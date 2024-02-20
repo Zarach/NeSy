@@ -9,7 +9,6 @@ def main():
         auto_version_bump=True,
         abort_on_failure=True,
         repo='https://github.com/Zarach/NeSy.git',
-        always_create_from_code=False,
         packages="./requirements.txt",
         docker="nvidia/cuda:11.7.0-cudnn8-devel-ubuntu22.04"
     )
