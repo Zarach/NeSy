@@ -18,7 +18,7 @@ def main():
         name="increment_step_1",
         function=increment,
         function_return=["incremented_number"],
-        cache_executed_step=True,
+        execution_queue="default"
     )
 
     pipe.add_function_step(
@@ -27,7 +27,7 @@ def main():
         function=increment,
         function_kwargs=dict(i="${increment_step_1.incremented_number}"),
         function_return=["incremented_number"],
-        cache_executed_step=True,
+        execution_queue="default"
     )
     pipe.set_default_execution_queue("default")
     pipe.start(queue="default")
