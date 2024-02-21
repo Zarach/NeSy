@@ -158,7 +158,6 @@ if __name__ ==  '__main__':
         name=f'step_calculate_dates_{1}',
         function=calculate_dates,
         cache_executed_step=True,
-        parents=[f'step_start_task_{1}'],
         function_kwargs=dict(experiment_number=1),
         function_return=['start_date', 'end_date'],
         repo='https://github.com/Zarach/NeSy.git',
