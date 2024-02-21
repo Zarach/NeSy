@@ -153,30 +153,30 @@ if __name__ ==  '__main__':
         project='NeSy',
         repo='https://github.com/Zarach/NeSy.git',
     )
-    experiment_number = 1
-    pipeline_controller.add_function_step(
-        name='step_calculate_dates',
-        function=calculate_dates,
-        cache_executed_step=True,
-        function_kwargs=dict(experiment_number=experiment_number),
-        function_return=['start_date', 'end_date'],
-        repo='https://github.com/Zarach/NeSy.git',
-        execution_queue="default"
-    )
-    pipeline_controller.add_function_step(
-        name='step_start_task',
-        function=start_task,
-        cache_executed_step=True,
-        function_kwargs=dict(experiment_number=experiment_number,
-                             period_start='${step_calculate_dates.start_date}',
-                             period_end='${step_calculate_dates.end_date}',
-                             window_size=299,
-                             resampling_rate='4s'
-                             ),
-        function_return=['data_frame'],
-        repo='https://github.com/Zarach/NeSy.git',
-        execution_queue="default"
-    )
+    for experiment_number in range(1,10):
+        pipeline_controller.add_function_step(
+            name=f'step_calculate_dates_{experiment_number}',
+            function=calculate_dates,
+            cache_executed_step=True,
+            function_kwargs=dict(experiment_number=experiment_number),
+            function_return=['start_date', 'end_date'],
+            repo='https://github.com/Zarach/NeSy.git',
+            execution_queue="default"
+        )
+        pipeline_controller.add_function_step(
+            name=f'step_start_task_{experiment_number}',
+            function=start_task,
+            cache_executed_step=True,
+            function_kwargs=dict(experiment_number=experiment_number,
+                                 period_start='${step_calculate_dates_'+experiment_number+'.start_date}',
+                                 period_end='${step_calculate_dates_'+experiment_number+'.end_date}',
+                                 window_size=299,
+                                 resampling_rate='4s'
+                                 ),
+            function_return=['data_frame'],
+            repo='https://github.com/Zarach/NeSy.git',
+            execution_queue="default"
+        )
 
     #pipeline_controller.start(queue='default')
     pipeline_controller.start(queue="default")
