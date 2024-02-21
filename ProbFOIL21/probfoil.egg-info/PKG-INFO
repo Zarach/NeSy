@@ -1,0 +1,21 @@
+Metadata-Version: 1.1
+Name: probfoil
+Version: 2.1.0.3
+Summary: Prob2FOIL: rule learner for probabilistic logic
+Home-page: https://dtai.cs.kuleuven.be/software/probfoil
+Author: Anton Dries
+Author-email: anton.dries@cs.kuleuven.be
+License: Apache Software License
+Description: UNKNOWN
+Keywords: probabilistic logic learning
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Prolog
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence

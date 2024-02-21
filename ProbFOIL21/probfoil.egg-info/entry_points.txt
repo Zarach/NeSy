@@ -1,0 +1,3 @@
+[console_scripts]
+probfoil = probfoil.probfoil:main
+
