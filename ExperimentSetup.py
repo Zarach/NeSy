@@ -168,8 +168,8 @@ if __name__ ==  '__main__':
             function=start_task,
             cache_executed_step=True,
             function_kwargs=dict(experiment_number=experiment_number,
-                                 period_start='${step_calculate_dates_'+experiment_number+'.start_date}',
-                                 period_end='${step_calculate_dates_'+experiment_number+'.end_date}',
+                                 period_start='${step_calculate_dates_'+str(experiment_number)+'.start_date}',
+                                 period_end='${step_calculate_dates_'+str(experiment_number)+'.end_date}',
                                  window_size=299,
                                  resampling_rate='4s'
                                  ),
