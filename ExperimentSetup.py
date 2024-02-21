@@ -29,14 +29,6 @@ from tensorflow.keras.models import Sequential
 # # # commit dataset changes
 # dataset.finalize
 
-#@PipelineDecorator.component(execution_queue="default")
-def test1():
-    print("test 1")
-
-#@PipelineDecorator.component(execution_queue="default")
-def test2():
-    print("test 2")
-
 
 #@PipelineDecorator.component(execution_queue="default", return_values=['period_start', 'period_end'])
 def calculate_dates(experiment_number):
@@ -142,33 +134,52 @@ def start_task(experiment_number, period_start, period_end, window_size, resampl
     print(f"Evaluation Metrics not finetuned: {eval_metrics_compare}")
     print(f"Evaluation Metrics: {eval_metrics}")
 
-#@PipelineDecorator.pipeline(name='NeSy Pipeline', project='NeSy')
-def pipeline_logic(window_size, resampling_rate):
-    experiment_number = 1
-    #for experiment_number in range(6):
-    print(f'Experiment Number {experiment_number} started')
-    # period_start, period_end = calculate_dates(experiment_number)
-    # start_task(experiment_number, period_start, period_end, window_size, resampling_rate)
-    test1()
-    test2()
-    print(f'Experiment Number {experiment_number} finished')
+# #@PipelineDecorator.pipeline(name='NeSy Pipeline', project='NeSy')
+# def pipeline_logic(window_size, resampling_rate):
+#     experiment_number = 1
+#     #for experiment_number in range(6):
+#     print(f'Experiment Number {experiment_number} started')
+#     # period_start, period_end = calculate_dates(experiment_number)
+#     # start_task(experiment_number, period_start, period_end, window_size, resampling_rate)
+#     test1()
+#     test2()
+#     print(f'Experiment Number {experiment_number} finished')
 
 
 if __name__ ==  '__main__':
     #PipelineDecorator.run_locally()
-    pipeline_controller = PipelineController(name='NeSy Pipeline', project='NeSy')
-    pipeline_controller.add_function_step(
+    pipeline_controller = PipelineController(
+        name='NeSy Pipeline',
+        project='NeSy',
+        repo='https://github.com/Zarach/NeSy.git',
+    )
+    experiment_number = 1
+    step_calculate_dates = pipeline_controller.add_function_step(
         name='step_one',
-        function=test1,
+        function=calculate_dates,
         cache_executed_step=True,
+        function_kwargs=dict(experiment_number=experiment_number),
+        function_return=['start_date', 'end_date'],
+        repo='https://github.com/Zarach/NeSy.git',
+        execution_queue="default"
     )
-    pipeline_controller.add_function_step(
+    step_start_task = pipeline_controller.add_function_step(
         name='step_two',
-        function=test2,
+        function=start_task,
         cache_executed_step=True,
+        function_kwargs=dict(experiment_number=experiment_number,
+                             period_start='${step_calculate_dates.start_date}',
+                             period_end='${step_calculate_dates.end_date}',
+                             window_size=299,
+                             resampling_rate='4s'
+                             ),
+        function_return=['data_frame'],
+        repo='https://github.com/Zarach/NeSy.git',
+        execution_queue="default"
     )
+
     #pipeline_controller.start(queue='default')
-    pipeline_controller.start_locally()
+    pipeline_controller.start(queue="default")
     #PipelineDecorator.set_default_execution_queue('default')
     #pipeline_logic(299, '4s')
 
