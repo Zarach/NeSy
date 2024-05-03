@@ -158,7 +158,7 @@ if __name__ ==  '__main__':
     )
 
     pipeline_controller.add_function_step(
-        name=f'step_calculate_dates_{10}',
+        name=f'step_calculate_dates_{1}',
         function=calculate_dates,
         cache_executed_step=True,
         function_kwargs=dict(experiment_number=10),
@@ -167,7 +167,7 @@ if __name__ ==  '__main__':
         execution_queue="default"
     )
 
-    for experiment_number, date_number in itertools.zip_longest(range(1,10), reversed(range(1,11))):
+    for experiment_number, date_number in itertools.zip_longest(range(1,11), reversed(range(1,11))):
         pipeline_controller.add_function_step(
             name=f'step_start_task_{experiment_number}',
             function=start_task,
@@ -184,11 +184,11 @@ if __name__ ==  '__main__':
             execution_queue="default"
         )
         pipeline_controller.add_function_step(
-            name=f'step_calculate_dates_{date_number-1}',
+            name=f'step_calculate_dates_{experiment_number+1}',
             function=calculate_dates,
             cache_executed_step=True,
             parents=[f'step_start_task_{experiment_number}'],
-            function_kwargs=dict(experiment_number=experiment_number+1),
+            function_kwargs=dict(experiment_number=date_number+1),
             function_return=['start_date', 'end_date'],
             repo='https://github.com/Zarach/NeSy.git',
             execution_queue="default"
