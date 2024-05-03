@@ -6,6 +6,7 @@
 # Test VI: "2023-02-27 00:00:00", "2023-03-12 23:59:59"
 # Test VII: "2023-03-13 00:00:00", "2023-03-26 23:59:59"
 import argparse
+import itertools
 import os
 import time
 import datetime
@@ -31,7 +32,7 @@ from tensorflow.keras.models import Sequential
 
 
 #@PipelineDecorator.component(execution_queue="default", return_values=['period_start', 'period_end'])
-def calculate_dates(experiment_number):
+def calculate_dates(date_number):
 
     # parser = argparse.ArgumentParser()
     # normalerweise der 05. wurde umgestellt um wochentraining auszutesten.
@@ -52,12 +53,14 @@ def calculate_dates(experiment_number):
 
     # args = parser.parse_args()
 
-    for i in range(experiment_number):
-        print(f'experiment {i}')
+    for i in range(date_number):
+        # print(f'experiment {i}')
         period_start = (datetime.datetime.strptime(period_start, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(
             days=7)).strftime("%Y-%m-%d %H:%M:%S")
         period_end = (datetime.datetime.strptime(period_end, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(
             days=7)).strftime("%Y-%m-%d %H:%M:%S")
+        print(period_start)
+        print(period_end)
 
     return period_start, period_end
 
@@ -155,16 +158,16 @@ if __name__ ==  '__main__':
     )
 
     pipeline_controller.add_function_step(
-        name=f'step_calculate_dates_{1}',
+        name=f'step_calculate_dates_{10}',
         function=calculate_dates,
         cache_executed_step=True,
-        function_kwargs=dict(experiment_number=1),
+        function_kwargs=dict(experiment_number=10),
         function_return=['start_date', 'end_date'],
         repo='https://github.com/Zarach/NeSy.git',
         execution_queue="default"
     )
 
-    for experiment_number in range(1,10):
+    for experiment_number, date_number in itertools.zip_longest(range(1,10), reversed(range(1,11))):
         pipeline_controller.add_function_step(
             name=f'step_start_task_{experiment_number}',
             function=start_task,
@@ -181,7 +184,7 @@ if __name__ ==  '__main__':
             execution_queue="default"
         )
         pipeline_controller.add_function_step(
-            name=f'step_calculate_dates_{experiment_number+1}',
+            name=f'step_calculate_dates_{date_number-1}',
             function=calculate_dates,
             cache_executed_step=True,
             parents=[f'step_start_task_{experiment_number}'],
