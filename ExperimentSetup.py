@@ -8,6 +8,7 @@
 import argparse
 import itertools
 import os
+import random
 import time
 import datetime
 
@@ -157,15 +158,19 @@ if __name__ ==  '__main__':
         repo='https://github.com/Zarach/NeSy.git',
     )
 
+    date_numbers = random.sample(range(1, 11), 10)
+
     pipeline_controller.add_function_step(
         name=f'step_calculate_dates_{1}',
         function=calculate_dates,
         cache_executed_step=True,
-        function_kwargs=dict(date_number=10),
+        function_kwargs=dict(date_number=date_numbers.pop()),
         function_return=['start_date', 'end_date'],
         repo='https://github.com/Zarach/NeSy.git',
         execution_queue="default"
     )
+
+
 
     for experiment_number, date_number in itertools.zip_longest(range(1,11), reversed(range(1,11))):
         pipeline_controller.add_function_step(
@@ -188,7 +193,7 @@ if __name__ ==  '__main__':
             function=calculate_dates,
             cache_executed_step=True,
             parents=[f'step_start_task_{experiment_number}'],
-            function_kwargs=dict(date_number=date_number+1),
+            function_kwargs=dict(date_number=date_numbers.pop()),
             function_return=['start_date', 'end_date'],
             repo='https://github.com/Zarach/NeSy.git',
             execution_queue="default"
