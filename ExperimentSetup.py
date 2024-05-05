@@ -188,16 +188,17 @@ if __name__ ==  '__main__':
             repo='https://github.com/Zarach/NeSy.git',
             execution_queue="default"
         )
-        pipeline_controller.add_function_step(
-            name=f'step_calculate_dates_{experiment_number+1}',
-            function=calculate_dates,
-            cache_executed_step=True,
-            parents=[f'step_start_task_{experiment_number}'],
-            function_kwargs=dict(date_number=date_numbers.pop()),
-            function_return=['start_date', 'end_date'],
-            repo='https://github.com/Zarach/NeSy.git',
-            execution_queue="default"
-        )
+        if(experiment_number <11):
+            pipeline_controller.add_function_step(
+                name=f'step_calculate_dates_{experiment_number+1}',
+                function=calculate_dates,
+                cache_executed_step=True,
+                parents=[f'step_start_task_{experiment_number}'],
+                function_kwargs=dict(date_number=date_numbers.pop()),
+                function_return=['start_date', 'end_date'],
+                repo='https://github.com/Zarach/NeSy.git',
+                execution_queue="default"
+            )
 
     #pipeline_controller.start(queue='default')
     pipeline_controller.start(queue="default")
