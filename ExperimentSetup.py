@@ -188,7 +188,7 @@ if __name__ ==  '__main__':
             repo='https://github.com/Zarach/NeSy.git',
             execution_queue="default"
         )
-        if(experiment_number <11):
+        if experiment_number < 10:
             pipeline_controller.add_function_step(
                 name=f'step_calculate_dates_{experiment_number+1}',
                 function=calculate_dates,
