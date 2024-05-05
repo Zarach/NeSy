@@ -201,7 +201,7 @@ if __name__ ==  '__main__':
             )
 
     #pipeline_controller.start(queue='default')
-    pipeline_controller.start(queue="default")
+    pipeline_controller.start(queue="dev")
     #PipelineDecorator.set_default_execution_queue('default')
     #pipeline_logic(299, '4s')
 
