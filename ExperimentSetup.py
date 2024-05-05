@@ -158,7 +158,7 @@ if __name__ ==  '__main__':
         repo='https://github.com/Zarach/NeSy.git',
     )
 
-    date_numbers = random.sample(range(1, 21), 20)
+    date_numbers = random.sample(range(1, 11), 10)
 
     pipeline_controller.add_function_step(
         name=f'step_calculate_dates_{1}',
@@ -172,7 +172,7 @@ if __name__ ==  '__main__':
 
 
 
-    for experiment_number, date_number in itertools.zip_longest(range(1,21), reversed(range(1,21))):
+    for experiment_number, date_number in itertools.zip_longest(range(1,11), reversed(range(1,11))):
         pipeline_controller.add_function_step(
             name=f'step_start_task_{experiment_number}',
             function=start_task,
